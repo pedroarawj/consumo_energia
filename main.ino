@@ -1,15 +1,22 @@
 #include <LiquidCrystal.h>
 #include "EmonLib.h"
 
+<<<<<<< HEAD
 
 //Definição dos pinos referentes ao display
+=======
+>>>>>>> 67eea69385f3089e34bd0adf72d99ab563623885
 #define DB4 7
 #define DB5 6
 #define DB6 5
 #define DB7 4
 #define RS 12
 #define E 11
+<<<<<<< HEAD
 #define Pino_Corrente A0 //Definição do pino analógico referente ao sensor
+=======
+#define Pino_Corrente A0
+>>>>>>> 67eea69385f3089e34bd0adf72d99ab563623885
 
 EnergyMonitor emon;
 
