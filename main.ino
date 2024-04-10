@@ -40,5 +40,21 @@ void loop() {
   lcd.print(irms * tensao_padrao, 1);
   lcd.setCursor(6, 1);
   lcd.print("V");
+
+  // Calcula o consumo de energia (Potência * Tempo decorrido) e imprime no display
+  static double energiaTotal = 0.0;
+  unsigned long tempoAtual = millis();
+  static unsigned long tempoAnterior = 0;
+  
+  double potencia = irms * tensao_padrao;
+  double tempoPassado = (tempoAtual - tempoAnterior) / 1000.0; 
+  double energiaConsumida = potencia * tempoPassado / 3600000.0;
+  energiaTotal += energiaConsumida;
+  tempoAnterior = tempoAtual;
+
+  lcd.setCursor(0, 1);
+  lcd.print("Consumo: ");
+  lcd.print(energiaTotal, 2);
+  lcd.print(" kWh");
 }
 
