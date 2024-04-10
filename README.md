@@ -3,6 +3,9 @@
 A ideia central do projeto é monitorar o consumo de energia em dispositivos eletrônicos de maneira individual, com o objetivo de conscientizar sobre o uso consciente da energia
 e reduzir gastos desnecessários.
 
+*** OBS: O código foi inspirado no código base informado na biblioteca EmonLib ***
+Créditos: https://github.com/openenergymonitor/EmonLib/tree/master
+
 Bibliotecas utilizadas:
   1 - EmonLib.h
   2 - LiquidCrystal.h
