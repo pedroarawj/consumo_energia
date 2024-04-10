@@ -1,22 +1,14 @@
 #include <LiquidCrystal.h>
 #include "EmonLib.h"
 
-<<<<<<< HEAD
-
 //Definição dos pinos referentes ao display
-=======
->>>>>>> 67eea69385f3089e34bd0adf72d99ab563623885
 #define DB4 7
 #define DB5 6
 #define DB6 5
 #define DB7 4
 #define RS 12
 #define E 11
-<<<<<<< HEAD
 #define Pino_Corrente A0 //Definição do pino analógico referente ao sensor
-=======
-#define Pino_Corrente A0
->>>>>>> 67eea69385f3089e34bd0adf72d99ab563623885
 
 EnergyMonitor emon;
 
@@ -33,14 +25,10 @@ void setup() {
   lcd.setCursor(0, 1);
   lcd.print("Potência: ");
 
-  emon.current(Pino_Corrente, 30.0); //Define o pino de entrada da corrente e o valor de calibração da corrente
-
-  
+  emon.current(Pino_Corrente, 30.0); //Define o pino de entrada da corrente e o valor de calibração da corrente  
 }
 
-
 void loop() {
-
   //Calcula o valor da corrente e imprime no display
   double irms = emon.calcIrms(1200);
   lcd.setCursor(5, 0);
@@ -52,8 +40,5 @@ void loop() {
   lcd.print(irms * tensao_padrao, 1);
   lcd.setCursor(6, 1);
   lcd.print("V");
-
-
-
 }
 
