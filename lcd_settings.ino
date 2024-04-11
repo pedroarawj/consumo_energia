@@ -63,15 +63,7 @@ void loop() {
     delay(2500);
     lcd.clear(); //Retira os elementos anteriores da tela para exibir apenas o consumo
 
-    lcd.setCursor(0, 1);
-    lcd.print("Consumo: ");
-    lcd.print(energiaTotal, 2);//Imprime no display o consumo de energia
-    lcd.print(" kWh");
-
-    delay(2500); // Definição de tempo para voltar a informação da corrente e potência na tela
-  }
-
-  // Controle dos LEDs com base no consumo de energia
+    // Controle dos LEDs com base no consumo de energia
   if (energiaTotal <= limite_consumo) {
     digitalWrite(LED_VERDE, HIGH); // Acende o LED verde
     digitalWrite(LED_VERMELHO, LOW); // Apaga o LED vermelho
@@ -82,5 +74,12 @@ void loop() {
     delay(500);
     digitalWrite(LED_VERMELHO, LOW);
     delay(500);
+  }
+    lcd.setCursor(0, 1);
+    lcd.print("Consumo: ");
+    lcd.print(energiaTotal, 2);//Imprime no display o consumo de energia
+    lcd.print(" kWh");
+
+    delay(2500); // Definição de tempo para voltar a informação da corrente e potência na tela
   }
 }
