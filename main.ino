@@ -9,14 +9,14 @@
 #define RS 12
 #define E 11
 #define Pino_Corrente A1 // Definição do pino analógico referente ao sensor
-#define LED_VERDE 8      // Pino para o LED verde
-#define LED_VERMELHO 9   // Pino para o LED vermelho
 
 EnergyMonitor emon;
 
-float valor_tensao = 220.0; //110.0 dependendo da tomada
-
-double limite_consumo = 0.150; // Limite de consumo ideal em kW/min 
+int valor_tensao = 5; 
+double potencia;
+double energia;
+float custo_energia;
+unsigned long tempo_anterior = 0; 
 
 LiquidCrystal lcd(RS, E, DB4, DB5, DB6, DB7);
 
@@ -32,54 +32,54 @@ void setup() {
   pinMode(LED_VERDE, OUTPUT);
   pinMode(LED_VERMELHO, OUTPUT);
 
-  emon.current(Pino_Corrente, 2000); // Define o pino de entrada da corrente e o valor de calibração da corrente
+  emon.current(Pino_Corrente, 60.6); // Define o pino de entrada da corrente e o valor de calibração da corrente
 }
 
 void loop() {
+  unsigned long tempo_atual = millis(); // Variável que recebe o tempo de operação do arduino
+  double corrente = emon.calcIrms(1480); // Função que calcula a corrente
+  potencia = corrente * valor_tensao;
+  energia = potencia * (tempo_atual - tempo_anterior) / 3600 / 1000; // Conversão da potencia em W para kW e multiplicação da mesma pelo tempo (s para h)
+  custo_energia = energia * 0.6; // Cálculo do custo em reais em função do consumo
 
-  emon.calcVI(20, 2000); //Mede a corrente 
-  // Calcula o valor da corrente
-  double corrente = emon.Irms;
+  // Imprime a corrente e potência no display
+  lcd.setCursor(0, 0);
+  lcd.print("Corrente: ");
+  lcd.print(corrente);
+  lcd.print(" A");
 
-  // Calcula o valor da potência (Corrente * Tensão) 
-  double potencia = emon.RealPower;
+  lcd.setCursor(0, 1);
+  lcd.print("Potencia: ");
+  lcd.print(potencia, 1);
+  lcd.print(" W");
 
-  // Calcula o consumo de energia (Potência * Tempo decorrido) 
-  double energia = power * (millis() / 60000.0);  // Calcula a energia em kW/min
+  delay(2000); // Tempo que a informação é exibida no display
 
-  //Laço de repetição para alternar a exibição de diferentes informações no display
-  while(1){
-    lcd.setCursor(9, 0);
-    lcd.print(corrente); //Imprime no display o valor da corrente
-    lcd.print(" A");
+  lcd.clear(); // Retira a corrente e potencia do display para a exibição do consumo e custo
 
-    lcd.setCursor(9, 1);
-    lcd.print(potencia, 1);//Imprime no display o valor da potência
-    lcd.print(" W");
+  // Imprime o consumo e custo no display
+  lcd.setCursor(0, 0);
+  lcd.print("Consumo: ");
+  lcd.print(energia, 3);
+  lcd.print(" kWh");
 
-    delay(2000);
-    lcd.clear(); //Retira os elementos anteriores da tela para exibir apenas o consumo
+  lcd.setCursor(0, 1);
+  lcd.print("Custo: ");
+  lcd.print(custo_energia, 2);
+  lcd.print(" reais");
 
-    // Controle dos LEDs com base no consumo de energia
-  if (energia <= limite_consumo) {
-    digitalWrite(LED_VERMELHO, LOW); // Apaga o LED vermelho
-    digitalWrite(LED_VERDE, HIGH);
-    delay(500);
-    digitalWrite(LED_VERDE, LOW);//Faz o LED verde piscar
-    delay(500);
+  delay(2000); // Tempo para a informação e retornar as anteriores
+
+
+  if (corrente > 2){
+    while (1){
+      digitalWrite(pinVermelho, HIGH);
+      digitalWrite(pinVermelho, LOW);
+      digitalWrite(pinVerde, LOW);
+    }
   } else {
-    digitalWrite(LED_VERDE, LOW); // Apaga o LED verde
-    // Faz o LED vermelho piscar
-    digitalWrite(LED_VERMELHO, HIGH);
-    delay(500);
-    digitalWrite(LED_VERMELHO, LOW);
-    delay(500);
+    digitalWrite(pinVerde, HIGH);
+    digitalWrite(pinVermelho, LOW);
   }
-    lcd.setCursor(0, 1);
-    lcd.print("Consumo: ");
-    lcd.print(energia, 3);//Imprime no display o consumo de energia
-    lcd.print(" kW/min");
-
-    delay(2000); // Definição de tempo para voltar a informação da corrente e potência na tela
-  }
+  
 }
