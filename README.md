@@ -7,6 +7,7 @@ Créditos: https://github.com/openenergymonitor/EmonLib/tree/master
 
 Bibliotecas utilizadas:
   1 - EmonLib.h
+  2 - U8glib.h
 
 Funcionalidades: 
 
@@ -16,7 +17,7 @@ Funcionalidades:
   2 - Calcular a potência através da corrente
       * A tensão para análise foi definida como 5V.
       
-  3 - Dados mostrados no monitor serial
+  3 - Dados mostrados na tela do display ST7920 128x64
   
   4 - Calcular o consumo de energia do dispositivo
 
